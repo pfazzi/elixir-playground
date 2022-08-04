@@ -9,6 +9,7 @@ defmodule Playground.Domain.Order do
   defstruct [:id, :user_id, :timestamp, :items]
 
   @type order_item_data :: %{
+          row_number: integer,
           description: String.t(),
           qty: integer,
           price: Playground.Domain.Money
