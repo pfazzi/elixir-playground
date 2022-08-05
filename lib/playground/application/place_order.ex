@@ -3,11 +3,15 @@ defmodule Playground.Application.PlaceOrder do
   alias Playground.Domain.Clock
   alias Playground.Domain.OrderRepository
 
+  @type t() :: %__MODULE__{id: String.t(), user_id: String.t(), items: [Order.order_item_data()]}
+  @enforce_keys [:id, :user_id, :items]
+  defstruct [:id, :user_id, :items]
+
   @spec execute(
-          %{id: String.t(), user_id: String.t(), items: [Order.order_item_data()]},
+          %__MODULE__{},
           Clock,
           OrderRepository
-        ) :: :ok
+        ) :: :ok | {:error, String.t()}
   def execute(command, clock, order_repository) do
     order =
       Order.place(
@@ -18,5 +22,7 @@ defmodule Playground.Application.PlaceOrder do
       )
 
     order_repository.store(order)
+
+    :ok
   end
 end

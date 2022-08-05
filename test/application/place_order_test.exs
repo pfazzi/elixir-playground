@@ -12,7 +12,7 @@ defmodule PlaygroundTest.Application.PlaceOrderTest do
       def store(_order), do: :ok
     end
 
-    command = %{
+    command = %PlaceOrder{
       id: "50954707-5cc2-4737-ad54-a33700ad8bdc",
       user_id: "cc727cc2-9ad6-4fea-b523-12047aaffedd",
       items: [

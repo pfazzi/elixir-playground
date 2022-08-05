@@ -1,7 +1,7 @@
 defmodule Playground.Domain.OrderRepository do
   alias Playground.Domain.Order
 
-  @callback get(id: String.t()) :: %Order{}
+  @callback get(id :: String.t()) :: %Order{}
 
-  @callback store(order: %Order{}) :: :ok
+  @callback store(order :: %Order{}) :: :ok
 end

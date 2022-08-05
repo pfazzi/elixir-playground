@@ -25,7 +25,9 @@ defmodule Playground.MixProject do
       {:uuid, "~> 1.1"},
       {:dialyxir, "~> 1.0", only: [:dev], runtime: false},
       {:ecto_sql, "~> 3.0"},
-      {:postgrex, ">= 0.0.0"}
+      {:postgrex, ">= 0.0.0"},
+      {:plug_cowboy, "~> 2.0"},
+      {:jason, "~> 1.3"}
     ]
   end
 end

@@ -8,7 +8,12 @@ defmodule Playground.Infrastructure.Supervisor do
   @impl true
   def init(:ok) do
     children = [
-      Playground.Infrastructure.Database.Repo
+      Playground.Infrastructure.Database.Repo,
+      Plug.Cowboy.child_spec(
+        scheme: :http,
+        plug: Playground.Infrastructure.UI.Endpoint,
+        options: [port: 4001]
+      )
     ]
 
     Supervisor.init(children, strategy: :one_for_one)

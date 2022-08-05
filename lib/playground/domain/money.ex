@@ -1,4 +1,6 @@
 defmodule Playground.Domain.Money do
+  @derive Jason.Encoder
+
   @type t() :: %__MODULE__{
           amount_in_mills: integer,
           currency: String.t()
