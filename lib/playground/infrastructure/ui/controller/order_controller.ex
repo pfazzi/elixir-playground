@@ -35,8 +35,16 @@ defmodule Playground.Infrastructure.UI.Controller.OrderController do
   def get(conn, order_id) do
     order = Playground.Infrastructure.UI.Repository.OrderRepository.get(order_id)
 
-    conn
-    |> put_resp_content_type("application/json")
-    |> send_resp(200, Jason.encode!(order))
+    case Jason.encode(order) do
+      {:ok, encoded_order} ->
+        conn
+        |> put_resp_content_type("application/json")
+        |> send_resp(200, encoded_order)
+
+      {:error, _} ->
+        conn
+        |> put_resp_content_type("application/json")
+        |> send_resp(500, "Internal server error")
+    end
   end
 end

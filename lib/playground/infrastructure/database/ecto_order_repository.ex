@@ -35,27 +35,35 @@ defmodule Playground.Infrastructure.Database.EctoOrderRepository do
 
   @impl Playground.Domain.OrderRepository
   def store(order) do
-    order_id = Ecto.UUID.cast!(order.id)
+    case {Ecto.UUID.cast(order.id), Ecto.UUID.cast(order.user_id)} do
+      {{:ok, order_id}, {:ok, user_id}} ->
+        ecto_order = %EctoOrder{
+          id: order_id,
+          user_id: user_id,
+          timestamp: DateTime.truncate(order.timestamp, :second),
+          items:
+            Enum.map(order.items, fn i ->
+              %EctoOrderItem{
+                order_id: order_id,
+                row_number: i.row_number,
+                description: i.description,
+                qty: i.qty,
+                price_amount_in_mills: i.price.amount_in_mills,
+                price_currency: i.price.currency
+              }
+            end)
+        }
 
-    ecto_order = %EctoOrder{
-      id: order_id,
-      user_id: Ecto.UUID.cast!(order.user_id),
-      timestamp: DateTime.truncate(order.timestamp, :second),
-      items:
-        Enum.map(order.items, fn i ->
-          %EctoOrderItem{
-            order_id: order_id,
-            row_number: i.row_number,
-            description: i.description,
-            qty: i.qty,
-            price_amount_in_mills: i.price.amount_in_mills,
-            price_currency: i.price.currency
-          }
-        end)
-    }
+        case Playground.Infrastructure.Database.Repo.insert(ecto_order) do
+          {:ok, _} -> :ok
+          {:error, _} -> {:error, "Error while storing order"}
+        end
 
-    {:ok, _} = Playground.Infrastructure.Database.Repo.insert(ecto_order)
+      {:error, _} ->
+        {:error, "Unable to parse the given order id"}
 
-    :ok
+      {_, :error} ->
+        {:error, "Unable to parse the given user id"}
+    end
   end
 end
