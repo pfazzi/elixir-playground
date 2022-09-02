@@ -69,6 +69,6 @@ defmodule PlaygroundTest.Infrastructure.UI.ApiTest do
 
     assert conn.state == :sent
     assert conn.status == 200
-    assert conn.resp_body == ""
+    assert {:ok, _} = Jason.decode(conn.resp_body)
   end
 end
