@@ -1,3 +1,5 @@
 defmodule Playground.Domain.Clock do
-  @callback now() :: %DateTime{}
+  @type t :: module()
+
+  @callback now() :: DateTime.t()
 end

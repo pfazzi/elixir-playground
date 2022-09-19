@@ -1,8 +1,10 @@
 defmodule Playground.Domain.Order do
+  alias Playground.Domain.Clock
+
   @type t() :: %__MODULE__{
           id: String.t(),
           user_id: String.t(),
-          timestamp: %DateTime{},
+          timestamp: DateTime.t(),
           items: [%Playground.Domain.OrderItem{}]
         }
   @enforce_keys [:id, :user_id, :timestamp, :items]
@@ -15,7 +17,7 @@ defmodule Playground.Domain.Order do
           price: Playground.Domain.Money
         }
 
-  @spec place(Playground.Domain.Clock, String.t(), String.t(), [order_item_data]) :: %__MODULE__{}
+  @spec place(Clock.t(), String.t(), String.t(), [order_item_data]) :: %__MODULE__{}
   def place(clock, id, user_id, items) do
     %__MODULE__{
       id: id,

@@ -13,10 +13,9 @@ defmodule Playground.Application.PlaceOrder do
 
   @spec execute(
           %__MODULE__{},
-          Clock,
-          OrderRepository
+          Clock.t(),
+          OrderRepository.t()
         ) :: :ok | {:error, String.t()}
-
   def execute(
         command,
         clock,
