@@ -47,4 +47,20 @@ defmodule Playground.Infrastructure.UI.Controller.OrderController do
         |> send_resp(500, "Internal server error")
     end
   end
+
+  def get_list(conn) do
+    orders = Playground.Infrastructure.UI.Repository.OrderRepository.get_list()
+
+    case Jason.encode(orders) do
+      {:ok, encoded_orders} ->
+        conn
+        |> put_resp_content_type("application/json")
+        |> send_resp(200, encoded_orders)
+
+      {:error, _} ->
+        conn
+        |> put_resp_content_type("application/json")
+        |> send_resp(500, "Internal server error")
+    end
+  end
 end

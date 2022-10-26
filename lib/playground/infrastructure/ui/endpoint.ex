@@ -7,6 +7,7 @@ defmodule Playground.Infrastructure.UI.Endpoint do
   plug(:dispatch)
 
   post("/api/orders", do: Playground.Infrastructure.UI.Controller.OrderController.post(conn))
+  get("/api/orders", do: Playground.Infrastructure.UI.Controller.OrderController.get_list(conn))
 
   get("/api/orders/:id", do: Playground.Infrastructure.UI.Controller.OrderController.get(conn, id))
 

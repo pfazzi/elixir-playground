@@ -1,9 +1,23 @@
 defmodule Playground.Infrastructure.UI.Repository.OrderRepository do
-  def get(id) do
-    order =
-      Playground.Infrastructure.Database.Repo.get(Playground.Infrastructure.Database.Order, id)
-      |> Playground.Infrastructure.Database.Repo.preload(:items)
+  alias Playground.Infrastructure.Database.Repo
 
+  import Ecto.Query
+
+  @spec get(String.t()) :: Playground.Infrastructure.UI.Resource.Order.t()
+  def get(id) do
+    Repo.get(Playground.Infrastructure.Database.Order, id)
+    |> Repo.preload(:items)
+    |> build_view_model()
+  end
+
+  @spec get_list() :: [Playground.Infrastructure.UI.Resource.Order.t()]
+  def get_list() do
+    Repo.all(from(o in Playground.Infrastructure.Database.Order))
+    |> Repo.preload(:items)
+    |> Enum.map(&build_view_model/1)
+  end
+
+  defp build_view_model(order) do
     order = struct(Playground.Infrastructure.UI.Resource.Order, Map.from_struct(order))
 
     items =
