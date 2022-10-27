@@ -3,7 +3,7 @@ defmodule PlaygroundTest.Application.PlaceOrderTest do
 
   alias Playground.Application.PlaceOrder
   alias Playground.Domain.Money
-  alias Playground.Infrastructure.MockClock
+  alias Playground.Infrastructure.Clock.MockClock
 
   test "it handles the placement of a new order" do
     clock = MockClock.with_now(~U[2022-01-12 00:01:00.00Z])

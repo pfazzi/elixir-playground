@@ -1,9 +1,9 @@
-defmodule Playground.Infrastructure.UI.Resource.OrderItem do
-  @type t() :: %__MODULE__{
+defmodule Playground.Infrastructure.UI.Rest.Resource.OrderItem do
+  @type t :: %{
           row_number: integer,
           description: String.t(),
           qty: integer,
-          price: [%Playground.Domain.Money{}]
+          price: Playground.Infrastructure.UI.Rest.Resource.Money
         }
 
   @derive Jason.Encoder

@@ -1,16 +1,16 @@
-defmodule Playground.Infrastructure.UI.Repository.OrderRepository do
+defmodule Playground.Infrastructure.UI.Rest.Repository.OrderRepository do
   alias Playground.Infrastructure.Database.Repo
 
   import Ecto.Query
 
-  @spec get(String.t()) :: Playground.Infrastructure.UI.Resource.Order.t()
+  @spec get(String.t()) :: Playground.Infrastructure.UI.Rest.Resource.Order.t()
   def get(id) do
     Repo.get(Playground.Infrastructure.Database.Order, id)
     |> Repo.preload(:items)
     |> build_view_model()
   end
 
-  @spec get_list() :: [Playground.Infrastructure.UI.Resource.Order.t()]
+  @spec get_list() :: [Playground.Infrastructure.UI.Rest.Resource.Order.t()]
   def get_list() do
     Repo.all(from(o in Playground.Infrastructure.Database.Order))
     |> Repo.preload(:items)
@@ -18,11 +18,11 @@ defmodule Playground.Infrastructure.UI.Repository.OrderRepository do
   end
 
   defp build_view_model(order) do
-    order = struct(Playground.Infrastructure.UI.Resource.Order, Map.from_struct(order))
+    order = struct(Playground.Infrastructure.UI.Rest.Resource.Order, Map.from_struct(order))
 
     items =
       Enum.map(order.items, fn i ->
-        %Playground.Infrastructure.UI.Resource.OrderItem{
+        %Playground.Infrastructure.UI.Rest.Resource.OrderItem{
           row_number: i.row_number,
           description: i.description,
           qty: i.qty,

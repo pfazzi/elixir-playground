@@ -1,4 +1,4 @@
-defmodule Playground.Infrastructure.UI.Controller.OrderController do
+defmodule Playground.Infrastructure.UI.Rest.Controller.OrderController do
   import Plug.Conn
 
   def init(options) do
@@ -15,7 +15,7 @@ defmodule Playground.Infrastructure.UI.Controller.OrderController do
     result =
       Playground.Application.PlaceOrder.execute(
         command,
-        Playground.Infrastructure.SystemClock,
+        Playground.Infrastructure.Clock.SystemClock,
         Playground.Infrastructure.Database.EctoOrderRepository
       )
 
@@ -33,7 +33,7 @@ defmodule Playground.Infrastructure.UI.Controller.OrderController do
   end
 
   def get(conn, order_id) do
-    order = Playground.Infrastructure.UI.Repository.OrderRepository.get(order_id)
+    order = Playground.Infrastructure.UI.Rest.Repository.OrderRepository.get(order_id)
 
     case Jason.encode(order) do
       {:ok, encoded_order} ->
@@ -49,7 +49,7 @@ defmodule Playground.Infrastructure.UI.Controller.OrderController do
   end
 
   def get_list(conn) do
-    orders = Playground.Infrastructure.UI.Repository.OrderRepository.get_list()
+    orders = Playground.Infrastructure.UI.Rest.Repository.OrderRepository.get_list()
 
     case Jason.encode(orders) do
       {:ok, encoded_orders} ->

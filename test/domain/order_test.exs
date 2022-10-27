@@ -4,7 +4,7 @@ defmodule PlaygroundTest.Domain.OrderTest do
   alias Playground.Domain.Money
   alias Playground.Domain.Order
   alias Playground.Domain.OrderItem
-  alias Playground.Infrastructure.MockClock
+  alias Playground.Infrastructure.Clock.MockClock
 
   test "it can be placed" do
     clock = MockClock.with_now(~U[2022-01-12 00:01:00.00Z])

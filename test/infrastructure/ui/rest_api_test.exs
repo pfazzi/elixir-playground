@@ -1,4 +1,4 @@
-defmodule PlaygroundTest.Infrastructure.UI.ApiTest do
+defmodule PlaygroundTest.Infrastructure.UI.RestApiTest do
   use ExUnit.Case, async: true
   use Plug.Test
 
